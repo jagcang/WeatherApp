@@ -1,8 +1,0 @@
-#BlueJ class context
-comment0.target=WxController
-comment0.text=\r\n\ @author\ John\ Agcang\r\n
-comment1.params=e
-comment1.target=void\ handleButtonAction(javafx.event.ActionEvent)
-comment2.params=url\ rb
-comment2.target=void\ initialize(java.net.URL,\ java.util.ResourceBundle)
-numComments=3
