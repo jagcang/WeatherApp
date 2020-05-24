@@ -14,18 +14,26 @@ import java.text.DecimalFormat;
 import com.google.gson.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
+import java.text.DecimalFormat;
+import java.util.Calendar;
     /**
      * Write a description of class WxModel here.
      *
      * @author (John Agcang)
-     * @version (5/3/2020)
+     * @version (5/23/2020)
      */
        public class WxForecast
        {
         // instance variables - replace the example below with your own
         private JsonElement jse = null;
         private final String apiKey = "6a54ade05689e570106c9d2c01c0caca";
-        
+        private static final DateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
+        private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd HH:mm:ss");
+        private static DecimalFormat df2 = new DecimalFormat("#.##");
         public boolean getWx(String zipcode)
            {
                
@@ -34,7 +42,7 @@ import javafx.scene.image.ImageView;
                 // Construct WxStation API URL
                 URL wxURL = new URL("http://api.openweathermap.org/data/2.5/forecast?zip="
                         + zipcode
-                        + "&appid=" 
+                        + "&units=imperial&appid=" 
                         + apiKey);
     
                 // Open the URL
@@ -69,51 +77,92 @@ import javafx.scene.image.ImageView;
        
        public boolean isValid()
        {
-           try
+           try 
            {
                //Zipcode is valid
-              String location = jse.getAsJsonObject().get("city").getAsJsonObject().get("name")
-              .getAsString();
-              return true;
+                String message = jse.getAsJsonObject().get("message").getAsString();
+                return true;
            }
-           catch(java.lang.NullPointerException npe)
+           catch (java.lang.NullPointerException npe)
            {
-               //Zipcode is  NOT valid
+               // We did not see error so this is a valid zip
                return false;
            }
-       
        }
        
-       private String getForecastData(int day, String attribute) 
+       private String getForecastMainData(int day, String attribute) 
        {
-          if (jse == null) getWx("forecasts");
-
           return jse.getAsJsonObject()
-          .get("response").getAsJsonArray()
-          .get(0).getAsJsonObject()
           .get("list").getAsJsonArray()
-          .get(day).getAsJsonObject()
+          .get(day*8).getAsJsonObject()
+          .get("main").getAsJsonObject()
           .get(attribute).getAsString();
        }
        
-    
+       private String getForecastWeatherData(int day, String attribute) 
+       {
+          return jse.getAsJsonObject()
+          .get("list").getAsJsonArray()
+          .get(day).getAsJsonObject()
+          .get("weather").getAsJsonArray()
+          .get(0).getAsJsonObject()
+          .get(attribute).getAsString();
+       }
        
        
-    public String[] getHighForecast() {
-        String[] highs = new String[7];
-
-        for (int i = 0; i < highs.length; i++) {
-            highs[i] = getForecastData(i, "temp_max");
-            highs[i] = highs[i] + "°F";
-        }
-
-        return highs;
-    }
-            
         
-            
-            
+       public String[] getHighForecast() 
+       {
+           String[] highs = new String[5];
 
+            for (int i = 0; i < highs.length; i++) 
+           {
+               highs[i] = getForecastMainData(i, "temp_max");
+               highs[i] = highs[i] + "°F";
+           }
+
+           return highs;
+       } 
        
-      
+        public String[] getLowForecast() 
+       {
+           String[] lows = new String[5];
+
+            for (int i = 0; i < lows.length; i++) 
+           {
+               lows[i] = getForecastMainData(i, "temp_min");
+               lows[i] = lows[i] + "°F";
+           }
+
+           return lows;
+       }
+       
+            public Image[] getIcons() 
+        {
+            Image[] icons = new Image[5];
+
+            for (int i = 0; i < icons.length; i++) 
+            {
+                String url = "http://openweathermap.org/img/wn/" + getForecastWeatherData(i*8, "icon") + "@2x.png";
+                Image icon = new Image(url);
+
+                icons[i] = new Image(url);
+            }
+        
+
+            return icons;
+       }
+       
+          public String[] getDate() 
+       {
+           String[] dates = new String[5];
+
+            for (int i = 0; i < dates.length; i++) 
+           {
+               dates[i] =  jse.getAsJsonObject().get("list").getAsJsonArray().get(i*8).getAsJsonObject().get("dt_txt").getAsString();
+               
+           }
+
+           return dates;
+       } 
 }

@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
      * Write a description of class WxModel here.
      *
      * @author (John Agcang)
-     * @version (5/3/2020)
+     * @version (5/23/2020)
      */
        public class WxCurrent
        {
@@ -72,7 +72,8 @@ import javafx.scene.image.ImageView;
        
        public boolean isValid()
        {
-           try
+        
+           try 
            {
                //Zipcode is valid
                 JsonArray obs = jse.getAsJsonObject().get("weather")
@@ -81,11 +82,12 @@ import javafx.scene.image.ImageView;
                 .get("id").getAsString();
                 return true;
            }
-           catch(java.lang.NullPointerException npe)
+           catch (java.lang.NullPointerException npe)
            {
-               //Zipcode is  NOT valid
+               // We did not see error so this is a valid zip
                return false;
            }
+
        
        }
        
@@ -184,6 +186,23 @@ import javafx.scene.image.ImageView;
       + obs.get(0).getAsJsonObject().get("icon").getAsString() + "@2x.png";
       return new Image(iconURL);
     }
-   
     
+    public double getLatC()
+    {
+        return jse.getAsJsonObject().get("coord").getAsJsonObject()
+        .get("lat").getAsDouble();
+    }
+    
+    public double getLonC()
+    {
+        return jse.getAsJsonObject().get("coord").getAsJsonObject()
+        .get("lon").getAsDouble();
+    }
+    
+    public int getDT()
+    {
+        return jse.getAsJsonObject().get("dt").getAsInt();
+    }
+    
+   
 }
