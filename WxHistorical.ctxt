@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=WxHistorical
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ WxHistorical\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=lat\ lon\ dt
+comment1.target=boolean\ getWx(double,\ double,\ int)
+comment2.params=
+comment2.target=boolean\ isValid()
+comment3.params=hour\ attribute
+comment3.target=java.lang.String\ getHistoricalWeatherData(int,\ java.lang.String)
+comment4.params=hour\ attribute
+comment4.target=java.lang.String\ getHistoricalWeather2Data(int,\ java.lang.String)
+comment5.params=
+comment5.target=java.lang.String[]\ getHistoricalTemp()
+comment6.params=
+comment6.target=java.lang.String[]\ getHistoricalWeather()
+numComments=7

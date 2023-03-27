@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=Wx
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ WxModel\ here.\r\n\r\n\ @author\ (John\ Agcang)\r\n\ @version\ (5/23/2020)\r\n
+comment1.params=lat\ lon
+comment1.target=boolean\ getWx(double,\ double)
+comment2.params=
+comment2.target=boolean\ isValid()
+comment3.params=
+comment3.target=java.lang.String\ getSunset()
+comment4.params=
+comment4.target=java.lang.String\ getSunrise()
+numComments=5
